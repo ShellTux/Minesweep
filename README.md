@@ -86,6 +86,7 @@ or specify number of rows, columns or bombs:
   - [x] Print amount of flagged cells
 - [x] Win when exactly `all bombs have been flagged` and
 `all non-bombs have been opened`.
+- [x] Command line arguments input.
 
 ## Acknowledgements
 
