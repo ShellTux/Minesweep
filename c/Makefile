@@ -19,7 +19,7 @@ all: minesweeper-c run
 	@printf "\n"
 	$(CC) $(CFLAGS) -o $@ $^
 
-install: minesweeper
+install: minesweeper-c
 	cp ./minesweeper-c ~/.local/bin
 
 minesweeper-c: main.o
