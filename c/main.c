@@ -10,10 +10,6 @@
 #include <time.h>
 #include <unistd.h>
 
-#define ROWS            20
-#define COLS            20
-#define NUMBER_OF_BOMBS 10
-
 typedef struct {
 	int neighbors;
 	bool flagged;
@@ -25,9 +21,10 @@ typedef struct {
 	int row, col;
 } Cursor;
 
-Cell table[ROWS][COLS];
-Cursor player;
-bool firstPlay = 1;
+int ROWS            = 10;
+int COLS            = 10;
+bool firstPlay      = 1;
+int NUMBER_OF_BOMBS = 5;
 // Save terminal attributes
 struct termios terminalOriginalAttributes;
 
@@ -269,11 +266,57 @@ void flagTableAtCursor(Cell table[ROWS][COLS], Cursor player)
 	table[player.row][player.col].flagged ^= 1;
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
+	for (int i = 0; i < argc; ++i) {
+		if (strcmp(argv[i], "--help") == 0) {
+			char *helpPage
+			    = "Use: minesweeper-c [OPTION] [VALUE]\n"
+			      "  --help         Print this help page\n"
+			      "  --bombs        Number of bombs (integer)\n"
+			      "  --rows         Number of table rows "
+			      "(integer)\n"
+			      "  --cols         Number of table cols (integer)";
+
+			printf("%s\n", helpPage);
+
+			return 0;
+		} else if (strcmp(argv[i], "--bombs") == 0) {
+			if (!sscanf(argv[i + 1], "%d", &NUMBER_OF_BOMBS)) {
+				fprintf(
+				    stderr,
+				    "The number of bombs is not an integer\n"
+				    "Example:\n"
+				    "./minesweeper-c --bombs 10\n");
+				return 1;
+			}
+		} else if (strcmp(argv[i], "--rows") == 0) {
+			if (!sscanf(argv[i + 1], "%d", &ROWS)) {
+				fprintf(
+				    stderr,
+				    "The number of rows is not an integer\n"
+				    "Example:\n"
+				    "./minesweeper-c --rows 10\n");
+				return 1;
+			}
+		} else if (strcmp(argv[i], "--cols") == 0) {
+			if (!sscanf(argv[i + 1], "%d", &COLS)) {
+				fprintf(
+				    stderr,
+				    "The number of columns is not an integer\n"
+				    "Example:\n"
+				    "./minesweeper-c --cols 10\n");
+				return 1;
+			}
+		}
+	}
+
+	Cell table[ROWS][COLS];
+	Cursor player;
+	player.row = ROWS / 2;
+	player.col = COLS / 2;
+
 	srand(time(NULL));
-	player.row = 0;
-	player.col = 0;
 
 	initializeTable(table);
 

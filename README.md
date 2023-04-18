@@ -61,6 +61,18 @@ it will display a number indicating the number of neighboring cells that contain
 
 ### C
 
+To run the program:
+
+```zsh
+./minesweeper-c
+```
+
+or specify number of rows, columns or bombs:
+
+```zsh
+./minesweeper-c --rows 10 --cols 10 --bombs 10
+```
+
 - [x] Movement (w,  a,    s,    d)
 - [ ] Movement (up, left, down, right arrows)
 - [x] Press `space` to open a cell

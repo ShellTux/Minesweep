@@ -6,7 +6,7 @@ OBJECTS=main.o
 SRC=.
 SOURCE=$(wildcard $(SRC)/*.c)
 
-all: main.o run
+all: minesweeper-c run
 
 %:%.o
 	$(CC) $(CFLAGS) -o $@ $^ $(DEPS) 
@@ -19,16 +19,18 @@ all: main.o run
 	@printf "\n"
 	$(CC) $(CFLAGS) -o $@ $^
 
+minesweeper-c: main.o
+	mv main.o minesweeper-c
+
 %.s: %.c
 	$(CC) -S $^
 
-run: main.o
+run: minesweeper-c
 	@printf "\n"
 	@printf "###############\n"
 	@printf "#   Running   #\n"
 	@printf "###############\n"
 	@printf "\n"
-	@mv main.o minesweeper-c
 	./minesweeper-c
 
 help:
