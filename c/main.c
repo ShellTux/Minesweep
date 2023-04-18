@@ -201,11 +201,16 @@ void openEmptyRegionAtPos(Cell table[ROWS][COLS], int row, int col)
 	cell->open = 1;
 
 
-	int deltaPos[4][2] = {
+	int deltaPos[][2] = {
 	    {-1,  0}, // Above
 	    { 1,  0}, // Below
 	    { 0, -1}, // Left
-	    { 0,  1}  // Right
+	    { 0,  1}, // Right
+	    // Corners
+	    {-1, -1}, // Above
+	    {-1,  1}, // Below
+	    { 1, -1}, // Left
+	    { 1,  1}, // Right
 	};
 
 	for (unsigned long int i = 0;
