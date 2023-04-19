@@ -80,8 +80,8 @@ or specify number of rows, columns or bombs:
 - [x] Open recursively empty neighboring cells
 - [x] The `first cell` to be opened is __not__ a bomb
 - [x] Press `f` to flag a cell
-  - [ ] When a cell is opened, it's not possible to flag
-  - [ ] When a cell is flagged and opened, reset the flag state to False
+  - [x] When a cell is opened, it's not possible to flag
+  - [x] When a cell is flagged and opened, reset the flag state to False
 - [x] Print Table after an operation
   - [x] Print Number of bombs planted
   - [x] Print amount of opened cells

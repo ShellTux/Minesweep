@@ -12,7 +12,7 @@
 
 typedef struct {
 	int neighbors;
-	bool flagged;
+	bool flag;
 	bool bomb;
 	bool open;
 } Cell;
@@ -79,9 +79,9 @@ void initializeTable(Cell table[ROWS][COLS])
 		for (int j = 0; j < COLS; ++j) {
 			Cell cell;
 			cell.bomb      = 0;
-			cell.flagged   = 0;
-			cell.neighbors = 0;
+			cell.flag      = 0;
 			cell.open      = 0;
+			cell.neighbors = 0;
 
 			table[i][j] = cell;
 		}
@@ -95,7 +95,7 @@ char getCharacterFromCell(Cell cell)
 		if (cell.bomb) return '*';
 
 		return cell.neighbors ? '0' + cell.neighbors : ' ';
-	} else if (cell.flagged) return '?';
+	} else if (cell.flag) return '?';
 
 
 	return c;
@@ -118,7 +118,7 @@ int countFlags(Cell table[ROWS][COLS])
 	// Have a global variable for the flags cells
 	int flagSum = 0;
 	for (int i = 0; i < ROWS; ++i)
-		for (int j = 0; j < COLS; ++j) flagSum += table[i][j].flagged;
+		for (int j = 0; j < COLS; ++j) flagSum += table[i][j].flag;
 
 	return flagSum;
 }
@@ -152,7 +152,7 @@ void printTable(Cell table[ROWS][COLS], Cursor player)
 			char *stringColor = COLOR_RESET;
 
 			if (cell.bomb && cell.open) stringColor = COLOR_RED;
-			else if (cell.flagged) stringColor = COLOR_YELLOW;
+			else if (cell.flag) stringColor = COLOR_YELLOW;
 
 			if (isPlayer)
 				printf("%s[%s%c%s]%s",
@@ -195,13 +195,11 @@ void openEmptyRegionAtPos(Cell table[ROWS][COLS], int row, int col)
 {
 	Cell *cell = &table[row][col];
 
-	if (cell->open || cell->bomb || cell->flagged) return;
-	if (cell->neighbors > 0) {
-		cell->open = 1;
-		return;
-	}
+	if (cell->open || cell->bomb || cell->flag) return;
 
 	cell->open = 1;
+
+	if (cell->neighbors > 0) return;
 
 
 	int deltaPos[][2] = {
@@ -266,12 +264,14 @@ void openTableAtCursor(Cell table[ROWS][COLS], Cursor player)
 		openEmptyRegionAtPos(table, player.row, player.col);
 
 	cell->open    = 1;
-	cell->flagged = 0;
+	cell->flag = 0;
 }
 
 void flagTableAtCursor(Cell table[ROWS][COLS], Cursor player)
 {
-	table[player.row][player.col].flagged ^= 1;
+	Cell *cell = &table[player.row][player.col];
+	if (cell->open) return;
+	cell->flag ^= 1;
 }
 
 int main(int argc, char *argv[])
