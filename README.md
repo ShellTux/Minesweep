@@ -55,7 +55,7 @@ it will display a number indicating the number of neighboring cells that contain
 
 - [x] C
 - [ ] Pascal
-- [ ] Python
+- [x] Python
 - [ ] Rust
 - [ ] Haskell ?
 
@@ -80,6 +80,8 @@ or specify number of rows, columns or bombs:
 - [x] Open recursively empty neighboring cells
 - [x] The `first cell` to be opened is __not__ a bomb
 - [x] Press `f` to flag a cell
+  - [ ] When a cell is opened, it's not possible to flag
+  - [ ] When a cell is flagged and opened, reset the flag state to False
 - [x] Print Table after an operation
   - [x] Print Number of bombs planted
   - [x] Print amount of opened cells
@@ -87,6 +89,33 @@ or specify number of rows, columns or bombs:
 - [x] Win when exactly `all bombs have been flagged` and
 `all non-bombs have been opened`.
 - [x] Command line arguments input.
+  - [x] Help page
+  - [x] Number of Rows
+  - [x] Number of Columns
+  - [x] Number of Bombs
+
+### Python
+
+- [x] Movement (w,  a,    s,    d)
+- [ ] Movement (up, left, down, right arrows)
+- [x] Press `space` to open a cell
+  - [x] When the `revealed` cell is a `bomb`, then `game over`.
+- [x] Open recursively empty neighboring cells
+- [x] The `first cell` to be opened is __not__ a bomb
+- [x] Press `f` to flag a cell
+  - [x] When a cell is opened, it's not possible to flag
+  - [x] When a cell is flagged and opened, reset the flag state to False
+- [x] Print Table after an operation
+  - [x] Print Number of bombs planted
+  - [x] Print amount of opened cells
+  - [x] Print amount of flagged cells
+- [ ] Win when exactly `all bombs have been flagged` and
+`all non-bombs have been opened`.
+- [ ] Command line arguments input.
+  - [x] Help page
+  - [x] Number of Rows
+  - [x] Number of Columns
+  - [x] Number of Bombs
 
 ## Acknowledgements
 
