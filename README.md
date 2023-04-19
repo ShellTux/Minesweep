@@ -109,9 +109,9 @@ or specify number of rows, columns or bombs:
   - [x] Print Number of bombs planted
   - [x] Print amount of opened cells
   - [x] Print amount of flagged cells
-- [ ] Win when exactly `all bombs have been flagged` and
+- [x] Win when exactly `all bombs have been flagged` and
 `all non-bombs have been opened`.
-- [ ] Command line arguments input.
+- [x] Command line arguments input.
   - [x] Help page
   - [x] Number of Rows
   - [x] Number of Columns
