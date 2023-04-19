@@ -52,6 +52,9 @@ void createTable(Cell table[ROWS][COLS], int bombsNumber, Cursor player)
 		int j = rand() % COLS;
 
 		if (i == player.row && j == player.col) continue;
+		int deltaI = abs(player.row - i);
+		int deltaJ = abs(player.col - j);
+		if (deltaI + deltaJ <= 2) continue;
 
 		// Skip if there is a bomb already there
 		if (table[i][j].bomb) continue;
@@ -344,6 +347,7 @@ int main(int argc, char *argv[])
 
 		switch (keyPress) {
 		case 04: // ^d
+		case 'q':
 		case 27: // Escape
 			keyPress = 'e';
 			break;
