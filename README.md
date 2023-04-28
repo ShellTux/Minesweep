@@ -1,6 +1,6 @@
 # Minesweeper Game
 
-![A won expert game of KMines, a free and open-source variant of Minesweeper](https://upload.wikimedia.org/wikipedia/commons/1/1b/Kmines_Expert_Game_with_Numbers_1-8.png)
+![Minesweeper](images/minesweeper.png)
 
 This is a command-line based implementation of the popular Minesweeper game in
 various Programming Languages.

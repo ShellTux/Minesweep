@@ -21,10 +21,10 @@ typedef struct {
 	int row, col;
 } Cursor;
 
-int ROWS            = 10;
-int COLS            = 10;
+int ROWS            = 25;
+int COLS            = 25;
 bool firstPlay      = 1;
-int NUMBER_OF_BOMBS = 5;
+int NUMBER_OF_BOMBS = 60;
 // Save terminal attributes
 struct termios terminalOriginalAttributes;
 
