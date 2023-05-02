@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/ioctl.h>
 #include <termios.h>
 #include <time.h>
 #include <unistd.h>
@@ -279,8 +280,18 @@ void flagTableAtCursor(Cell table[ROWS][COLS], Cursor player)
 		: Flag;
 }
 
+void getTerminalRowsAndCols(int *rows, int *cols)
+{
+	struct winsize w;
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	*rows = w.ws_row - 3;
+	*cols = (w.ws_col - 3) / 3;
+}
+
 int main(int argc, char *argv[])
 {
+	getTerminalRowsAndCols(&ROWS, &COLS);
+
 	for (int i = 0; i < argc; ++i) {
 		if (strcmp(argv[i], "--help") == 0) {
 			char *helpPage
