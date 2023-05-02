@@ -10,11 +10,16 @@
 #include <time.h>
 #include <unistd.h>
 
+/*! \enum State
+*
+*  State for a specific cell on the table
+*/
+typedef enum State { Close, Open, Flag } State;
+
 typedef struct {
 	int neighbors;
-	bool flag;
+	State state;
 	bool bomb;
-	bool open;
 } Cell;
 
 typedef struct {
@@ -79,8 +84,7 @@ void initializeTable(Cell table[ROWS][COLS])
 		for (int j = 0; j < COLS; ++j) {
 			Cell cell;
 			cell.bomb      = 0;
-			cell.flag      = 0;
-			cell.open      = 0;
+			cell.state     = Close;
 			cell.neighbors = 0;
 
 			table[i][j] = cell;
@@ -91,11 +95,11 @@ char getCharacterFromCell(Cell cell)
 {
 	char c = '.';
 
-	if (cell.open) {
+	if (cell.state == Open) {
 		if (cell.bomb) return '*';
 
 		return cell.neighbors ? '0' + cell.neighbors : ' ';
-	} else if (cell.flag) return '?';
+	} else if (cell.state == Flag) return '?';
 
 
 	return c;
@@ -107,7 +111,7 @@ int countOpen(Cell table[ROWS][COLS])
 	// Have a global variable for the opened cells
 	int openSum = 0;
 	for (int i = 0; i < ROWS; ++i)
-		for (int j = 0; j < COLS; ++j) openSum += table[i][j].open;
+		for (int j = 0; j < COLS; ++j) openSum += table[i][j].state == Open;
 
 	return openSum;
 }
@@ -118,7 +122,7 @@ int countFlags(Cell table[ROWS][COLS])
 	// Have a global variable for the flags cells
 	int flagSum = 0;
 	for (int i = 0; i < ROWS; ++i)
-		for (int j = 0; j < COLS; ++j) flagSum += table[i][j].flag;
+		for (int j = 0; j < COLS; ++j) flagSum += table[i][j].state == Flag;
 
 	return flagSum;
 }
@@ -151,8 +155,8 @@ void printTable(Cell table[ROWS][COLS], Cursor player)
 			char c            = getCharacterFromCell(cell);
 			char *stringColor = COLOR_RESET;
 
-			if (cell.bomb && cell.open) stringColor = COLOR_RED;
-			else if (cell.flag) stringColor = COLOR_YELLOW;
+			if (cell.bomb && cell.state == Open) stringColor = COLOR_RED;
+			else if (cell.state == Flag) stringColor = COLOR_YELLOW;
 
 			if (isPlayer)
 				printf("%s[%s%c%s]%s",
@@ -195,9 +199,9 @@ void openEmptyRegionAtPos(Cell table[ROWS][COLS], int row, int col)
 {
 	Cell *cell = &table[row][col];
 
-	if (cell->open || cell->bomb || cell->flag) return;
+	if (cell->state == Open || cell->state == Flag || cell->bomb) return;
 
-	cell->open = 1;
+	cell->state = Open;
 
 	if (cell->neighbors > 0) return;
 
@@ -245,7 +249,7 @@ void lost(Cell table[ROWS][COLS], Cursor player)
 
 			if (!cell->bomb) continue;
 
-			cell->open = 1;
+			cell->state = Open;
 			printTable(table, player);
 		}
 
@@ -263,15 +267,16 @@ void openTableAtCursor(Cell table[ROWS][COLS], Cursor player)
 	if (cell->neighbors == 0)
 		openEmptyRegionAtPos(table, player.row, player.col);
 
-	cell->open    = 1;
-	cell->flag = 0;
+	cell->state = Open;
 }
 
 void flagTableAtCursor(Cell table[ROWS][COLS], Cursor player)
 {
 	Cell *cell = &table[player.row][player.col];
-	if (cell->open) return;
-	cell->flag ^= 1;
+	if (cell->state == Open) return;
+	cell->state = cell->state == Flag
+		? Close
+		: Flag;
 }
 
 int main(int argc, char *argv[])
