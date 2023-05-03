@@ -112,7 +112,8 @@ int countOpen(Cell table[ROWS][COLS])
 	// Have a global variable for the opened cells
 	int openSum = 0;
 	for (int i = 0; i < ROWS; ++i)
-		for (int j = 0; j < COLS; ++j) openSum += table[i][j].state == Open;
+		for (int j = 0; j < COLS; ++j)
+			openSum += table[i][j].state == Open;
 
 	return openSum;
 }
@@ -123,7 +124,8 @@ int countFlags(Cell table[ROWS][COLS])
 	// Have a global variable for the flags cells
 	int flagSum = 0;
 	for (int i = 0; i < ROWS; ++i)
-		for (int j = 0; j < COLS; ++j) flagSum += table[i][j].state == Flag;
+		for (int j = 0; j < COLS; ++j)
+			flagSum += table[i][j].state == Flag;
 
 	return flagSum;
 }
@@ -156,7 +158,8 @@ void printTable(Cell table[ROWS][COLS], Cursor player)
 			char c            = getCharacterFromCell(cell);
 			char *stringColor = COLOR_RESET;
 
-			if (cell.bomb && cell.state == Open) stringColor = COLOR_RED;
+			if (cell.bomb && cell.state == Open)
+				stringColor = COLOR_RED;
 			else if (cell.state == Flag) stringColor = COLOR_YELLOW;
 
 			if (isPlayer)
@@ -212,7 +215,7 @@ void openEmptyRegionAtPos(Cell table[ROWS][COLS], int row, int col)
 	    { 1,  0}, // Below
 	    { 0, -1}, // Left
 	    { 0,  1}, // Right
-	    // Corners
+  // Corners
 	    {-1, -1}, // Above
 	    {-1,  1}, // Below
 	    { 1, -1}, // Left
@@ -275,9 +278,7 @@ void flagTableAtCursor(Cell table[ROWS][COLS], Cursor player)
 {
 	Cell *cell = &table[player.row][player.col];
 	if (cell->state == Open) return;
-	cell->state = cell->state == Flag
-		? Close
-		: Flag;
+	cell->state = cell->state == Flag ? Close : Flag;
 }
 
 void getTerminalRowsAndCols(int *rows, int *cols)
@@ -316,11 +317,10 @@ int main(int argc, char *argv[])
 			}
 		} else if (strcmp(argv[i], "--rows") == 0) {
 			if (!sscanf(argv[i + 1], "%d", &ROWS)) {
-				fprintf(
-				    stderr,
-				    "The number of rows is not an integer\n"
-				    "Example:\n"
-				    "./minesweeper-c --rows 10\n");
+				fprintf(stderr,
+				        "The number of rows is not an integer\n"
+				        "Example:\n"
+				        "./minesweeper-c --rows 10\n");
 				return 1;
 			}
 		} else if (strcmp(argv[i], "--cols") == 0) {
