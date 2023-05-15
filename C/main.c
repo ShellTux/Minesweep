@@ -293,6 +293,8 @@ int main(int argc, char *argv[])
 {
 	getTerminalRowsAndCols(&ROWS, &COLS);
 
+	// TODO: Implement getopt
+
 	for (int i = 0; i < argc; ++i) {
 		if (strcmp(argv[i], "--help") == 0) {
 			char *helpPage
