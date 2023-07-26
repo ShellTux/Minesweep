@@ -350,7 +350,7 @@ int main(int argc, char *argv[])
 	tcgetattr(STDIN_FILENO, &terminalOriginalAttributes);
 
 	// Set terminal to non-canonical mode
-	struct termios tattr = terminalOriginalAttributes;
+	struct termios tattr  = terminalOriginalAttributes;
 	tattr.c_lflag        &= ~(ICANON | ECHO);
 	tcsetattr(STDIN_FILENO, TCSANOW, &tattr);
 
