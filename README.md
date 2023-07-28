@@ -9,25 +9,25 @@ various Programming Languages.
 
 Clone the repository:
 
-```zsh
+```sh
 git clone https://github.com/ShellTux/minesweeper.git
 ```
 
 Navigate to the directory:
 
-```zsh
+```sh
 cd minesweeper
 ```
 
 Navigate to a specific `language`:
 
-```zsh
+```sh
 cd c
 ```
 
 Compile the program: `make`
 
-```zsh
+```sh
 make
 ```
 
@@ -54,6 +54,7 @@ it will display a number indicating the number of neighboring cells that contain
 ### Languages
 
 - [x] C
+- [ ] C++
 - [ ] Pascal
 - [x] Python
 - [ ] Rust
@@ -63,13 +64,13 @@ it will display a number indicating the number of neighboring cells that contain
 
 To run the program:
 
-```zsh
+```sh
 ./minesweeper-c
 ```
 
 or specify number of rows, columns or bombs:
 
-```zsh
+```sh
 ./minesweeper-c --rows 10 --cols 10 --bombs 10
 ```
 
@@ -77,6 +78,7 @@ or specify number of rows, columns or bombs:
 - [ ] Movement (up, left, down, right arrows)
 - [x] Press `space` to open a cell
 - [x] Press `f` to flag a cell
+- [ ] Print Size of Table
 - [x] Print Table after an operation
 - [x] Print Number of bombs planted
 - [x] Print amount of opened cells
@@ -95,12 +97,56 @@ or specify number of rows, columns or bombs:
   - [x] Number of Columns
   - [x] Number of Bombs
 
+### C++
+
+To build and run the program:
+
+```sh
+make
+```
+
+To run the program:
+
+```sh
+./minesweepper
+```
+
+or specify number of rows, columns or bombs:
+
+```sh
+./minesweepper --rows 10 --cols 10 --bombs 10
+```
+
+- [x] Movement (w,  a,    s,    d)
+- [x] Movement (up, left, down, right arrows)
+- [x] Press `space` to open a cell
+- [x] Press `f` to flag a cell
+- [x] Print Table after an operation
+- [x] Print Size of Table
+- [x] Print Number of bombs planted
+- [x] Print amount of opened cells
+- [x] Print amount of flagged cells
+- [x] Add Color support
+- [x] The `first cell` to be opened is __not__ a bomb
+- [x] When the `revealed` cell is a `bomb`, then `game over`.
+- [x] Open recursively empty neighboring cells
+- [x] When a cell is opened, it's not possible to flag
+- [x] When a cell is flagged and opened, reset the flag state
+- [x] Win when exactly `all bombs have been flagged` and
+`al  non-bombs have been opened`.
+- [x] Command line arguments input.
+  - [x] Help page
+  - [x] Number of Rows
+  - [x] Number of Columns
+  - [x] Number of Bombs
+
 ### Python
 
 - [x] Movement (w,  a,    s,    d)
 - [ ] Movement (up, left, down, right arrows)
 - [x] Press `space` to open a cell
 - [x] Press `f` to flag a cell
+- [ ] Print Size of Table
 - [x] Print Table after an operation
 - [x] Print Number of bombs planted
 - [x] Print amount of opened cells
