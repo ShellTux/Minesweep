@@ -54,7 +54,7 @@ it will display a number indicating the number of neighboring cells that contain
 ### Languages
 
 - [x] C
-- [ ] C++
+- [x] C++
 - [ ] Pascal
 - [x] Python
 - [ ] Rust
