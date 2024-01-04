@@ -1,46 +1,91 @@
-CC=gcc
-CFLAGS=-Wall -Wextra -g -Og
-CFILES=main.c
-DEPS=
-OBJECTS=main.o
-SRC=.
-SOURCE=$(wildcard $(SRC)/*.c)
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+CFLAGS += -Wno-error=unused-parameter
+CFLAGS += -Wno-error=unused-variable
+CFLAGS += -Wno-error=unused-but-set-variable
+CFLAGS += -I"$$PWD/include/"
+LINKS = 
 
-all: minesweeper-c run
 
-%:%.o
-	$(CC) $(CFLAGS) -o $@ $^ $(DEPS) 
+SRCDIR = src
+OBJDIR = obj
+INCLUDEDIR = include
 
-%.o:%.c $(DEPS)
-	@printf "\n"
-	@printf "##################\n"
-	@printf "Building %s\n" $@
-	@printf "##################\n"
-	@printf "\n"
-	$(CC) $(CFLAGS) -o $@ $^
+# C Source Files
+SOURCES  = $(shell find $(SRCDIR) \
+		-name "*.c" -o \
+		-name "*.s" -o \
+		-name "*.asm" | tr '\n' ' ')
+# Remove SRCDIR
+SOURCES := $(SOURCES:$(SRCDIR)/%=%)
 
-install: minesweeper-c
-	cp ./minesweeper-c ~/.local/bin
+# C Object Files
+OBJECTS := $(SOURCES:%.c=%.o)
+OBJECTS := $(OBJECTS:%.s=%.o)
+OBJECTS := $(OBJECTS:%.asm=%.o)
 
-minesweeper-c: main.o
-	mv main.o minesweeper-c
+# Header files
+HEADERS  = $(wildcard $(INCLUDEDIR)/*.h)
 
-%.s: %.c
-	$(CC) -S $^
+TARGET = minesweeper
+TARDIR = build
 
-run: minesweeper-c
-	@printf "\n"
-	@printf "###############\n"
-	@printf "#   Running   #\n"
-	@printf "###############\n"
-	@printf "\n"
-	./minesweeper-c
+.PHONY: all
+all: $(TARGET)
 
-help:
-	@echo "src: $(SOURCE)"
-	@echo "obj: $(OBJECTS)"
+debug-flags: CFLAGS += -g
+debug-flags: clean $(TARGET)
 
-# cleaning everything that can be automatically recreated with "make".
+debug: CFLAGS += -DDEBUG=1
+
+.PHONY: .clangd
+.clangd:
+	rm --force $@
+
+	@echo CompileFlags: | tee --append $@
+	@echo '  Add:' | tee --append $@
+
+	@for flag in $(CFLAGS) ; do echo "    - $$flag" | tee --append $@ ; done
+
+$(SRCDIR) $(OBJDIR) $(TARDIR) $(TESTDIR):
+	mkdir --parents --verbose $@
+
+.PHONY: clean
 clean:
 	@printf "Cleaning\n"
-	rm $(OBJECTS)
+	rm -f $(TARDIR)/$(TARGET) $(TARGET) $(TEST)
+	rm -rf $(OBJDIR)
+
+$(TARGET): $(OBJECTS:%=$(OBJDIR)/%) | $(TARDIR)
+	$(CC) $(CFLAGS) -o $(TARDIR)/$@ $^ $(LINKS)
+	cp $(TARDIR)/$@ .
+
+# Object rule for C files
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS) | $(OBJDIR)
+	@printf "\n\033[31m"
+	@printf "########################\n"
+	@printf "Building %s\n" $@
+	@printf "########################\n"
+	@printf "\033[0m\n"
+	mkdir -p `dirname $@`
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+# Object rule for Assembly files
+$(OBJDIR)/%.o: $(SRCDIR)/%.s $(HEADERS) | $(OBJDIR)
+	@printf "\n\033[31m"
+	@printf "########################\n"
+	@printf "Building %s\n" $@
+	@printf "########################\n"
+	@printf "\033[0m\n"
+	mkdir -p `dirname $@`
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.asm $(HEADERS) | $(OBJDIR)
+	@printf "\n\033[31m"
+	@printf "########################\n"
+	@printf "Building %s\n" $@
+	@printf "########################\n"
+	@printf "\033[0m\n"
+	mkdir -p `dirname $@`
+	$(CC) $(CFLAGS) -c -o $@ $<
+

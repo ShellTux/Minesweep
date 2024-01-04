@@ -1,0 +1,9 @@
+CompileFlags:
+  Add:
+    - -Wall
+    - -Wextra
+    - -Werror
+    - -Wno-error=unused-parameter
+    - -Wno-error=unused-variable
+    - -Wno-error=unused-but-set-variable
+    - -I/home/lgois/.local/src/Minesweeper/C/include/
