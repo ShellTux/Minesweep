@@ -57,6 +57,7 @@ it will display a number indicating the number of neighboring cells that contain
 - [x] C++
 - [ ] Pascal
 - [x] Python
+- [x] Java
 - [ ] Rust
 - [ ] Haskell ?
 
