@@ -1,6 +1,6 @@
 # Minesweeper Game
 
-![Minesweeper](images/minesweeper.png)
+![Minesweeper](assets/minesweeper.png)
 
 This is a command-line based implementation of the popular Minesweeper game in
 various Programming Languages.
@@ -165,6 +165,10 @@ or specify number of rows, columns or bombs:
   - [x] Number of Rows
   - [x] Number of Columns
   - [x] Number of Bombs
+
+## Demo
+
+![Demo](assets/demo.gif)
 
 ## Acknowledgements
 
